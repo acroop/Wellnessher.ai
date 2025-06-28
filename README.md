@@ -1,4 +1,4 @@
-# Medico Web
+# Medikesh
 
 A modern, responsive web application for women's health management, built with React, Vite, and Tailwind CSS.
 
