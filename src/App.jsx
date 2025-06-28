@@ -19,6 +19,7 @@ import ConsultDoctor from './pages/ConsultDoctor';
 import Settings from './pages/Settings';
 import Profile from './pages/Profile';
 import Notes from './pages/Notes';
+import Researcher from './pages/Researcher';
 
 const Layout = ({ children }) => {
   const { theme } = useTheme();
@@ -51,6 +52,8 @@ const AppRoutes = () => (
     <Route path="/medical-history" element={<MedicalHistory />} />
     <Route path="/medidocs" element={<Medidocs />} />
     <Route path="/consult-doctor" element={<ConsultDoctor />} />
+    <Route path="/researcher" element={<Researcher/>} />
+   
     <Route path="/settings" element={<Settings />} />
     <Route path="/profile" element={<Profile />} />
     <Route path="/notes" element={<Notes />} />

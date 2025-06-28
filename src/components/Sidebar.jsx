@@ -13,6 +13,7 @@ const menuItems = [
   { label: 'Medical Records', route: '/medical-history' },
   { label: 'MediDocs', route: '/medidocs' },
   { label: 'Consult a Doctor', route: '/consult-doctor' },
+  { label: 'Early Detection', route: '/researcher' },
 ];
 
 
