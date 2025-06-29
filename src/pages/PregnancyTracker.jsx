@@ -14,11 +14,27 @@ import {
 import Layout from '../components/Layout.jsx';
 
 
+// Baby size mapping for each week
+const babySizeByWeek = [
+  'Poppy Seed', 'Sesame Seed', 'Lentil', 'Blueberry', 'Kidney Bean', 'Grape', 'Kumquat', 'Fig',
+  'Lime', 'Plum', 'Peach', 'Lemon', 'Apple', 'Avocado', 'Onion', 'Sweet Potato', 'Mango',
+  'Banana', 'Carrot', 'Eggplant', 'Cantaloupe', 'Coconut', 'Corn', 'Butternut Squash',
+  'Papaya', 'Grapefruit', 'Cauliflower', 'Lettuce', 'Pineapple', 'Cabbage', 'Acorn Squash',
+  'Butternut Squash', 'Coconut', 'Honeydew Melon', 'Watermelon', 'Pumpkin', 'Jackfruit',
+  'Spaghetti Squash', 'Leek', 'Swiss Chard', 'Mini Watermelon', 'Small Pumpkin'
+];
+
+const phaseByWeek = [
+  { name: 'First Trimester', start: 1, end: 13 },
+  { name: 'Second Trimester', start: 14, end: 26 },
+  { name: 'Third Trimester', start: 27, end: 40 }
+];
+
 const mockPregnancyData = {
   isPregnant: true,
   dueDate: '2026-01-15',
   weeksPregnant: 16,
-  babySize: 'Avocado',
+  // babySize is now dynamic
   appointments: [
     {
       id: '1',
@@ -77,19 +93,28 @@ const PregnancyTracker = () => {
   const [rescheduleDate, setRescheduleDate] = useState('');
   const [rescheduleTime, setRescheduleTime] = useState('');
   const [selectedAppointment, setSelectedAppointment] = useState(null);
+  // Interactive week selection
+  const [selectedWeek, setSelectedWeek] = useState(pregnancyData.weeksPregnant);
 
   const dueDate = new Date(pregnancyData.dueDate);
   const today = new Date();
-  const daysUntilDueDate = Math.floor((dueDate - today) / (1000 * 60 * 60 * 24));
-  const progress = (pregnancyData.weeksPregnant / 40) * 100;
+  // Calculate weeks pregnant from due date and today
+  const msPerWeek = 1000 * 60 * 60 * 24 * 7;
+  const conceptionDate = new Date(dueDate.getTime() - 40 * msPerWeek);
+  const weeksPregnant = Math.max(1, Math.min(40, Math.floor((today - conceptionDate) / msPerWeek) + 1));
+  const daysUntilDueDate = Math.max(0, Math.floor((dueDate - today) / (1000 * 60 * 60 * 24)));
+  const progress = (weeksPregnant / 40) * 100;
+
+  // For interactive week selection
+  const displayWeek = selectedWeek;
+  const babySize = babySizeByWeek[displayWeek - 1] || 'Baby';
+  const phase = phaseByWeek.find(p => displayWeek >= p.start && displayWeek <= p.end)?.name || '';
 
   const upcoming = pregnancyData.appointments.filter(
     a => new Date(a.date) >= today
   ).sort((a, b) => new Date(a.date) - new Date(b.date));
   const next = upcoming[0];
   const nextAppointment = next;
-
-  const trimester = pregnancyData.weeksPregnant > 26 ? 3 : pregnancyData.weeksPregnant > 13 ? 2 : 1;
 
   // Handler for reschedule
   const handleReschedule = (appointment) => {
@@ -123,44 +148,62 @@ const PregnancyTracker = () => {
   return (
     <Layout>
       <div className="min-h-screen px-4 py-6 flex flex-col items-center" style={{ backgroundColor: theme.background, color: theme.text }}>
-        <div className="w-full max-w-6xl mx-auto"> {/* Broader layout for consistency */}
+        <div className="w-full max-w-6xl mx-auto">
           <h1 style={{ fontSize: '2rem', marginBottom: '0.5rem' }}>Pregnancy Tracker</h1>
-          <p style={{ marginBottom: '1.5rem', color: theme.textSecondary }}>
-            Week {pregnancyData.weeksPregnant} • {daysUntilDueDate} days to go
-          </p>
-
           <Card>
-            <p style={{ color: theme.primary }}>Baby is the size of an</p>
-            <h2 style={{ fontSize: '1.25rem', fontWeight: 'bold' }}>{pregnancyData.babySize}</h2>
-            <p style={{ color: theme.textSecondary }}>
-              Due on {dueDate.toLocaleDateString()}
-            </p>
-            <span style={{
-              backgroundColor: theme.primary,
-              color: '#fff',
-              padding: '4px 8px',
-              borderRadius: '6px',
-              display: 'inline-block',
-              marginTop: '0.5rem'
-            }}>
-              Trimester {trimester}
-            </span>
-            <div style={{
-              background: theme.border,
-              borderRadius: '4px',
-              height: '8px',
-              marginTop: '10px'
-            }}>
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: 12 }}>
+              <p style={{ color: theme.primary }}>Baby is the size of a{['A','E','I','O','U'].includes(babySize[0].toUpperCase()) ? 'n' : ''}</p>
+              <h2 style={{ fontSize: '1.25rem', fontWeight: 'bold' }}>{babySize}</h2>
+              <p style={{ color: theme.textSecondary }}>
+                Due on {dueDate.toLocaleDateString()}
+              </p>
+              <span style={{
+                backgroundColor: theme.primary,
+                color: '#fff',
+                padding: '4px 8px',
+                borderRadius: '6px',
+                display: 'inline-block',
+                marginTop: '0.5rem'
+              }}>
+                {phase}
+              </span>
               <div style={{
-                background: theme.primary,
+                background: theme.border,
+                borderRadius: '4px',
                 height: '8px',
-                width: `${progress}%`,
-                borderRadius: '4px'
-              }}></div>
+                marginTop: '10px',
+                width: '100%',
+                maxWidth: 400
+              }}>
+                <div style={{
+                  background: theme.primary,
+                  height: '8px',
+                  width: `${(displayWeek / 40) * 100}%`,
+                  borderRadius: '4px'
+                }}></div>
+              </div>
+              <p style={{ fontSize: '0.875rem', color: theme.textSecondary }}>
+                {displayWeek} of 40 weeks
+              </p>
+              <div style={{ display: 'flex', flexDirection: 'row', gap: 32, width: '100%', alignItems: 'center', marginTop: 8 }}>
+                {/* Week selection slider */}
+                <div style={{ flex: 1, display: 'flex', alignItems: 'center', gap: 8 }}>
+                  <label htmlFor="week-slider" style={{ color: theme.textSecondary, marginBottom: 0, whiteSpace: 'nowrap' }}>Select Week</label>
+                  <input
+                    id="week-slider"
+                    type="range"
+                    min={1}
+                    max={40}
+                    value={selectedWeek}
+                    onChange={e => setSelectedWeek(Number(e.target.value))}
+                    style={{ flex: 1, maxWidth: 200 }}
+                  />
+                  <span style={{ color: theme.textSecondary, minWidth: 60, textAlign: 'center' }}>{displayWeek} / 40</span>
+                </div>
+                {/* Actual week of pregnancy slider (read-only) */}
+                
+              </div>
             </div>
-            <p style={{ fontSize: '0.875rem', color: theme.textSecondary }}>
-              {pregnancyData.weeksPregnant} of 40 weeks
-            </p>
           </Card>
 
           {nextAppointment && (

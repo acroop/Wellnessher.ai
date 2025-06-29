@@ -80,7 +80,7 @@ const HomeScreen = () => {
       description: 'Upload, view, and manage your medical documents securely.',
     },
     {
-      title: 'Early Detection',
+      title: 'Pathogenetic Predictor',
       icon: <FiClipboard size={20} />,
       route: '/researcher',
       description: ' Detect pathogens early using our AI-driven genetic analysis tool.',
