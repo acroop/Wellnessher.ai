@@ -118,7 +118,7 @@ const Researcher = () => {
                         </div>
                         <div className="flex justify-start">
                             <a
-                                href="https://6ecff5797b4364e533.gradio.live/"
+                                href="https://huggingface.co/spaces/Reeck/Pathopredict"
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="inline-block"
@@ -127,8 +127,7 @@ const Researcher = () => {
                             </a>
                         </div>
                     </Card>
-
-
+                   
 
                 </div>
             </div>
