@@ -98,7 +98,7 @@ const Researcher = () => {
                     {/* Header */}
                     <div className="mb-8">
                         <h1 className="text-4xl font-bold mb-2" style={{ color: theme.text }}>
-                            Cancer Diagnosis
+                            Pathogenetic Predictor
                         </h1>
                         <p style={{ color: theme.textSecondary }}>Early detection by pathogenetic prediction</p>
                     </div>
@@ -114,11 +114,11 @@ const Researcher = () => {
                             <p style={{ color: theme.textSecondary }}>
                                 Concerned about a potential infection? Use our AI-powered tool to analyze your genetic data for signs of harmful pathogens. This tool leverages cutting-edge deep learning to assist in early disease detection. <span className="font-semibold" style={{ color: theme.primary }}>For informational purposes only.</span>
                             </p>
-
+      
                         </div>
                         <div className="flex justify-start">
                             <a
-                                href="https://32d4c5e0203b535076.gradio.live/"
+                                href="https://6ecff5797b4364e533.gradio.live/"
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="inline-block"

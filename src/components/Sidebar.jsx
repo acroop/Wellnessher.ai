@@ -57,7 +57,7 @@ const Sidebar = ({ open, setOpen }) => {
           </button>
         </div>
 
-        <div className="py-3 px-4 space-y-3">
+        <div className="py-3 px-4 space-y-3 ">
           {menuItems.map((item) => (
             <Link
               key={item.route}
