@@ -118,7 +118,7 @@ const Researcher = () => {
                         </div>
                         <div className="flex justify-start">
                             <a
-                                href="https://32d4c5e0203b535076.gradio.live/"
+                                href="https://5389824fdafe440d44.gradio.live/"
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="inline-block"
